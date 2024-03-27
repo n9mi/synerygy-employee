@@ -26,11 +26,15 @@ public class BranchOfficeRepository {
         this.branchOffices.remove(bo.getId());
     }
 
-    public void addEmployee(String boId, Employee e) {
-        BranchOffice bo = this.get(boId);
+    public void addEmployee(BranchOffice bo, Employee e) {
         HashMap<String, Employee> employees = bo.getEmployees();
         employees.put(e.getId(), e);
         bo.setEmployees(employees);
         this.create(bo);
+    }
+
+    public boolean isEmployeeExist(BranchOffice bo, String eId) {
+        HashMap<String, Employee> employees = bo.getEmployees();
+        return employees.containsKey(eId);
     }
 }
