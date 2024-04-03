@@ -4,37 +4,37 @@ import lombok.NoArgsConstructor;
 import synergy.employee.internal.entity.BranchOffice;
 import synergy.employee.internal.entity.Employee;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 public class BranchOfficeRepository {
-    private HashMap<String, BranchOffice> branchOffices;
-
-    public BranchOffice get(String id) {
-        return this.branchOffices.get(id);
+    public List<BranchOffice> findAll() {
+        return new ArrayList<>(Repository.branchOffices.values());
     }
 
-    public void create(BranchOffice bo) {
-        this.branchOffices.put(bo.getId(), bo);
+    public BranchOffice findById(String branchOfficeId) {
+        return Repository.branchOffices.get(branchOfficeId);
     }
 
-    public boolean isExists(String id) {
-        return this.branchOffices.containsKey(id);
+    public boolean isExists(String branchOfficeId) {
+        return Repository.branchOffices.containsKey(branchOfficeId);
     }
 
-    public void delete(BranchOffice bo) {
-        this.branchOffices.remove(bo.getId());
+    public void create(BranchOffice branchOffice) {
+        Repository.branchOffices.put(branchOffice.getId(), branchOffice);
     }
 
-    public void addEmployee(BranchOffice bo, Employee e) {
-        HashMap<String, Employee> employees = bo.getEmployees();
-        employees.put(e.getId(), e);
-        bo.setEmployees(employees);
-        this.create(bo);
+    public void update(String branchOfficeId, BranchOffice branchOffice) {
+        Repository.branchOffices.put(branchOfficeId, branchOffice);
     }
 
-    public boolean isEmployeeExist(BranchOffice bo, String eId) {
-        HashMap<String, Employee> employees = bo.getEmployees();
-        return employees.containsKey(eId);
+    public void delete(BranchOffice branchOffice) {
+        Repository.branchOffices.remove(branchOffice.getId());
+    }
+
+    public void assignEmployeeToBranchOffice(Employee employee, BranchOffice branchOffice) {
+        employee.setBranchOfficeId(branchOffice.getId());
+        Repository.employees.put(employee.getId(), employee);
     }
 }
